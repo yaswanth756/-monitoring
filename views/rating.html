@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Footer with Rating and Feedback</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f7f6;
+        }
+
+        .footer {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .footer h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            background-color: #dfe6e9;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: #b2bec3;
+            transition: all 0.3s ease;
+        }
+
+        .rating input:checked ~ label {
+            background-color: #fdcb6e;
+            color: #ffffff;
+        }
+
+        .feedback-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feedback-form textarea {
+            resize: none;
+            height: 120px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid #dfe6e9;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .feedback-form textarea:focus {
+            outline: none;
+            border-color: #74b9ff;
+        }
+
+        .feedback-form button {
+            background-color: #0984e3;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .feedback-form button:hover {
+            background-color: #0769b5;
+        }
+    </style>
+</head>
+<body>
+    <footer class="footer">
+        <h2>How was your experience?</h2>
+        <div class="rating">
+            <input type="radio" name="rating" id="star5" value="5">
+            <label for="star5">5</label>
+            <input type="radio" name="rating" id="star4" value="4">
+            <label for="star4">4</label>
+            <input type="radio" name="rating" id="star3" value="3">
+            <label for="star3">3</label>
+            <input type="radio" name="rating" id="star2" value="2">
+            <label for="star2">2</label>
+            <input type="radio" name="rating" id="star1" value="1">
+            <label for="star1">1</label>
+        </div>
+        <form class="feedback-form">
+            <textarea placeholder="We'd love to hear your thoughts..."></textarea>
+            <button type="submit">Send Feedback</button>
+        </form>
+    </footer>
+   <script>
+     const userData = localStorage.getItem("user");
+        user = JSON.parse(userData); 
+   const form = document.querySelector('.feedback-form');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+
+        const rating = document.querySelector('input[name="rating"]:checked')?.value;
+        
+
+        const feedback = document.querySelector('textarea').value;
+        
+        fetch("/api/feedback", {
+            method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                        },
+                body: JSON.stringify({
+                user_id: user.id,   
+                comment: feedback,   
+                rating: rating      
+    })
+}).then(response => response.json())  
+.then(data => {
+    alert(`Thank you, ${user.name}! ${data.message} 😊`);
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred while submitting the feedback.");
+    });
+    document.querySelector('input[name="rating"]:checked').checked = false;
+
+// Clear the text in the textarea
+document.querySelector('textarea').value = "";
+    });
+    </script>
+</body>
+</html>

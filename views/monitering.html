@@ -28,7 +28,7 @@
                     // Append each item's `id` and `name` as a list item
                     data.forEach(item => {
                         const li = document.createElement('li');
-                        li.textContent = `ID: ${item.id}, Name: ${item.name}`;
+                        li.textContent = `ID: ${item.id}, Name: ${item.name}  Email: ${item.email} Pass:${item.pasword_hash}`;
                         ul.appendChild(li);
                     });
                     

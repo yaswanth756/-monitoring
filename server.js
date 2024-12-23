@@ -13,10 +13,10 @@ const port=3000;
 require('dotenv').config();
 const mysql=require("mysql");
 const db = mysql.createConnection({
-    host:'bbm7sqkbecqsgvdiopj7-mysql.services.clever-cloud.com', // Ensure this is your actual database hostname from Render
-    user: "uc0pbkn6ud8bi0mu",               // Replace with actual MySQL username
-    password:  "0VUI2zprtAD7e1x5TIDS",       // Replace with actual MySQL password
-    database: "bbm7sqkbecqsgvdiopj7",     // Replace with actual database name
+    host:'baofnqhdacxwufloge9q-mysql.services.clever-cloud.com, // Ensure this is your actual database hostname from Render
+    user: "uxf1dwkow7ootjs3",               // Replace with actual MySQL username
+    password:  "iNkQjTP5ObFSXA6Xw5D3",       // Replace with actual MySQL password
+    database: "baofnqhdacxwufloge9q",     // Replace with actual database name
     port: 3306                          // Default MySQL port
 });
 
@@ -53,7 +53,7 @@ app.get('/monitering',(req,res)=>{
     res.sendFile(path.join(__dirname, "views", "monitering.html"));
 });
 app.get("/data",(req,res)=>{
-    const sql = "SELECT * FROM users";
+    const sql = "SELECT * FROM Users";
     db.query(sql, (err, results) => {
         if (err) {
             console.error('Error executing SQL query:', err.message);
